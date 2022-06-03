@@ -1,0 +1,35 @@
+version: "3.9"
+    
+services:
+  database:
+    image: mysql:5.7
+    volumes:
+      - database_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: FqSjY3|3h;Wy-#?@
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wpadmin
+      MYSQL_PASSWORD: Wj?df$c>MgH)6KtS
+    
+  wordpress:
+    depends_on:
+      - database
+    build:
+      context: ./wordpress-ssh
+      dockerfile: DockerFile
+    volumes:
+      - wordpress_data:/var/www/html
+    ports:
+      - "8022:22"
+      - "8443:443"
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: wpadmin
+      WORDPRESS_DB_PASSWORD: Wj?df$c>MgH)6KtS
+      WORDPRESS_DB_NAME: wordpress
+volumes:
+  database_data: {}
+  wordpress_data: {}

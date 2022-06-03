@@ -1,0 +1,11 @@
+FROM wordpress:latest
+RUN apt-get update
+RUN apt-get install -y ssh
+# username: wordpress / password: wordpress (by default)
+RUN useradd -d /var/www/html/ -s /bin/bash -g www-data -p sa3ay7uMPSeY2 wordpress
+RUN chown wordpress:www-data .
+RUN find . -type d -exec chmod 775 {} \;
+RUN find . -type f -exec chmod 664 {} \;
+
+# CMD service ssh start
+# ENTRYPOINT service ssh start && bash

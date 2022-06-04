@@ -1,11 +1,17 @@
 FROM wordpress:latest
-RUN apt-get update
-RUN apt-get install -y ssh
 # username: wordpress / password: wordpress (by default)
 RUN useradd -d /var/www/html/ -s /bin/bash -g www-data -p sa3ay7uMPSeY2 wordpress
-RUN chown wordpress:www-data .
-RUN find . -type d -exec chmod 775 {} \;
-RUN find . -type f -exec chmod 664 {} \;
 
-# CMD service ssh start
-# ENTRYPOINT service ssh start && bash
+RUN apt-get update
+RUN apt-get install -y ssh wget unzip
+
+USER www-data
+WORKDIR "/var/www/html/wp-content/plugins/"
+RUN wget https://cdn.it9.hk/wordpress-plugins.zip
+RUN unzip wordpress-plugins.zip
+RUN rm wordpress-plugins.zip
+WORKDIR "/var/www/html/"
+
+USER root
+# RUN chown -R wordpress:www-data . && find . -type d -exec chmod 775 {} \; && find . -type f -exec chmod 664 {} \;
+# RUN service ssh start
